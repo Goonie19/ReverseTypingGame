@@ -2,11 +2,72 @@
 
 [ext_resource type="Script" uid="uid://dg01kto7lgnjy" path="res://scripts/Minigame/minigame_controller.gd" id="1_w5aja"]
 
-[node name="GameScene" type="Node2D" unique_id=1255519799 node_paths=PackedStringArray("input")]
-script = ExtResource("1_w5aja")
-input = NodePath("Control/LineEdit")
+[sub_resource type="Animation" id="Animation_w5aja"]
+resource_name = "NotShowing"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Typing UI:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Typing UI:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
-[node name="Control" type="Control" parent="." unique_id=1719124110]
+[sub_resource type="Animation" id="Animation_onqr8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Typing UI:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Typing UI:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ycayy"]
+_data = {
+&"NotShowing": SubResource("Animation_w5aja"),
+&"RESET": SubResource("Animation_onqr8")
+}
+
+[node name="GameScene" type="Node2D" unique_id=1255519799 node_paths=PackedStringArray("input", "text_label")]
+script = ExtResource("1_w5aja")
+input = NodePath("Typing UI/LineEdit")
+text_label = NodePath("Typing UI/Typing Panel/GreyTextLabel")
+
+[node name="Typing UI" type="Control" parent="." unique_id=1719124110]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -20,29 +81,29 @@ offset_bottom = 642.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LineEdit" type="LineEdit" parent="Control" unique_id=229140362]
+[node name="LineEdit" type="LineEdit" parent="Typing UI" unique_id=229140362]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -301.0
-offset_top = 421.0
-offset_right = 324.0
-offset_bottom = 543.0
+offset_left = 1297.0
+offset_top = 1099.0
+offset_right = 1922.0
+offset_bottom = 1221.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Typing Panel" type="Panel" parent="Control" unique_id=899164123]
+[node name="Typing Panel" type="Panel" parent="Typing UI" unique_id=899164123]
 layout_mode = 0
 offset_left = 498.0
 offset_top = 59.0
 offset_right = 898.0
 offset_bottom = 204.155
 
-[node name="GreyTextLabel" type="RichTextLabel" parent="Control/Typing Panel" unique_id=385467457]
+[node name="GreyTextLabel" type="RichTextLabel" parent="Typing UI/Typing Panel" unique_id=385467457]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,3 +115,8 @@ bbcode_enabled = true
 text = "[color=white]Hola[/color] buenas tardes"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1605317890]
+libraries/ = SubResource("AnimationLibrary_ycayy")
+
+[connection signal="text_changed" from="Typing UI/LineEdit" to="." method="check_result"]
