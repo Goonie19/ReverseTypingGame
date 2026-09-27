@@ -2,6 +2,60 @@
 
 [ext_resource type="Script" uid="uid://dg01kto7lgnjy" path="res://scripts/Minigame/minigame_controller.gd" id="1_w5aja"]
 
+[sub_resource type="Animation" id="Animation_ycayy"]
+resource_name = "Appear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Typing UI:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Typing UI:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_bw6k5"]
+resource_name = "Disappear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Typing UI:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Typing UI:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
 [sub_resource type="Animation" id="Animation_w5aja"]
 resource_name = "NotShowing"
 tracks/0/type = "value"
@@ -58,6 +112,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ycayy"]
 _data = {
+&"Appear": SubResource("Animation_ycayy"),
+&"Disappear": SubResource("Animation_bw6k5"),
 &"NotShowing": SubResource("Animation_w5aja"),
 &"RESET": SubResource("Animation_onqr8")
 }
@@ -66,6 +122,8 @@ _data = {
 script = ExtResource("1_w5aja")
 input = NodePath("Typing UI/LineEdit")
 text_label = NodePath("Typing UI/Typing Panel/GreyTextLabel")
+waveAmp = 75
+waveFreq = 20
 
 [node name="Typing UI" type="Control" parent="." unique_id=1719124110]
 layout_mode = 3
@@ -112,11 +170,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/default_color = Color(0.601223, 0.601223, 0.60122293, 1)
 bbcode_enabled = true
-text = "[color=white]Hola[/color] buenas tardes"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1605317890]
 libraries/ = SubResource("AnimationLibrary_ycayy")
+
+[node name="Timer" type="Timer" parent="." unique_id=628395379]
 
 [connection signal="text_changed" from="Typing UI/LineEdit" to="." method="check_result"]
